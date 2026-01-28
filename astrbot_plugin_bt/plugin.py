@@ -49,30 +49,18 @@ def _handle_command(client: BtPanelClient, command: str) -> str:
     return "未知命令，请使用 bt help 查看支持的命令。"
 
 
-def _register_command(bot: Any, command: str, handler: Callable[..., str]) -> None:
-    if hasattr(bot, "register_command"):
-        bot.register_command(command, handler)
-        return
-    if hasattr(bot, "add_command"):
-        bot.add_command(command, handler)
-        return
-    if hasattr(bot, "command") and callable(bot.command):
-        bot.command(command)(handler)
-        return
-    if hasattr(bot, "register"):
-        bot.register(command, handler)
-        return
-    raise BtPanelError("Bot does not support command registration")
-
-
 def register(bot: Any, config: Optional[Dict[str, Any]] = None) -> None:
-    """Register commands with AstrBot."""
+    """Register commands with AstrBot.
+
+    The bot is expected to provide a `register_command` method accepting
+    `(command: str, handler: Callable[[], str])`.
+    """
 
     panel_config = _load_config(config or {})
     client = BtPanelClient(panel_config)
 
-    def make_handler(command: str) -> Callable[..., str]:
-        def handler(*_: Any, **__: Any) -> str:
+    def make_handler(command: str) -> Callable[[], str]:
+        def handler() -> str:
             try:
                 return _handle_command(client, command)
             except BtPanelError as exc:
@@ -80,14 +68,8 @@ def register(bot: Any, config: Optional[Dict[str, Any]] = None) -> None:
 
         return handler
 
+    if not hasattr(bot, "register_command"):
+        raise BtPanelError("Bot does not support register_command")
+
     for command in ("bt status", "bt sites", "bt restart panel", "bt help"):
-        _register_command(bot, command, make_handler(command))
-
-
-class Plugin:
-    """AstrBot plugin entry compatible with multiple loader styles."""
-
-    def __init__(self, bot: Any, config: Optional[Dict[str, Any]] = None) -> None:
-        self.bot = bot
-        self.config = config or {}
-        register(bot, self.config)
+        bot.register_command(command, make_handler(command))
