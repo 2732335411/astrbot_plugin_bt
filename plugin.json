@@ -1,0 +1,10 @@
+{
+  "name": "astrbot_plugin_bt",
+  "display_name": "宝塔面板助手",
+  "version": "0.1.0",
+  "description": "在 AstrBot 中调用宝塔面板（BT Panel）API 获取系统状态与站点信息。",
+  "author": "AstrBot Plugin",
+  "entry": "astrbot_plugin_bt.plugin:register",
+  "requirements": ["requests>=2.31.0"],
+  "config_schema": "config_schema.json"
+}

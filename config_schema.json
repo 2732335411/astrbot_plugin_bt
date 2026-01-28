@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BT Panel Plugin Config",
+  "type": "object",
+  "properties": {
+    "base_url": {
+      "type": "string",
+      "description": "BT Panel 地址，例如 https://example.com:8888"
+    },
+    "api_key": {
+      "type": "string",
+      "description": "BT Panel API 密钥"
+    },
+    "timeout_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 10,
+      "description": "请求超时时间（秒）"
+    },
+    "verify_tls": {
+      "type": "boolean",
+      "default": true,
+      "description": "是否校验 TLS 证书"
+    },
+    "token_mode": {
+      "type": "string",
+      "enum": ["time+key", "time+md5key"],
+      "default": "time+md5key",
+      "description": "签名模式"
+    }
+  },
+  "required": ["base_url", "api_key"],
+  "additionalProperties": false
+}
