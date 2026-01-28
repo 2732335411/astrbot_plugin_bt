@@ -9,10 +9,9 @@
 - `bt help`：查看帮助。
 
 ## 安装
-将仓库放入 AstrBot 插件目录，并在 AstrBot 配置中启用。插件清单位于 `plugin.json`。
+将仓库放入 AstrBot 插件目录，并在 AstrBot 配置中启用。
 
 ## 配置示例
-示例配置位于 `config.example.json`，完整字段约束见 `config_schema.json`。
 ```json
 {
   "base_url": "https://example.com:8888",
