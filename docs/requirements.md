@@ -55,3 +55,4 @@
 - 插件代码（包含 API Client、指令处理逻辑）。
 - README（安装与配置说明）。
 - 需求文档（本文件）。
+- 插件清单 `plugin.json` 与配置 schema（用于 AstrBot 插件系统识别与校验）。
